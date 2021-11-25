@@ -37,7 +37,7 @@ describe('MockingStrategyComponent', () => {
   });
 
   // NEVER  - zadna wartosc 
-  it('should do something', () => {
+  it('should array have proper elements, stub / NEVER', () => {
     component.users$ = NEVER
     component.ngOnInit();
     expect(component.users).toEqual([]);
@@ -46,15 +46,15 @@ describe('MockingStrategyComponent', () => {
   
 
   // OF  - 1 wartość, synchroniczna 
-  it('should do something', () => {
-    component.users$ = of('lol');
+  it('should array have proper elements, one value synchonusly', () => {
+    component.users$ = of('Hans');
     component.ngOnInit();
-    expect(component.users).toEqual(['lol']);
+    expect(component.users).toEqual(['Hans']);
 
   });
 
   // OF + DELAY - 1 wartość, asynchonicznie
-  it('should do something', fakeAsync(() => {
+  it('should array have proper elements, one value asynchnusly', fakeAsync(() => {
     component.users$ = of('Maria', 'Roman', 'Hans')
     .pipe(
       concatMap(x => of(x)
@@ -69,7 +69,7 @@ describe('MockingStrategyComponent', () => {
   }));
 
   // FROM wiele wartości synchonicznie
-  it('should do something', () => {
+  it('should array have proper elements, many values sync', () => {
     component.users$ = from(['Maria', 'Roman', 'Hans'])
     .pipe(
       concatMap(x => of(x))
@@ -79,7 +79,7 @@ describe('MockingStrategyComponent', () => {
   });
 
   // INTERVAL wiele wartości asynchonicznie
-  it('should do something INTERVAL', fakeAsync(() => {
+  it('should array have proper elements, many values async INTERVAL', fakeAsync(() => {
     // testScheduler.run(()=> {
       const users = ['Maria', 'Roman', 'Hans']
       component.users$ = interval(1000).pipe(
@@ -94,7 +94,7 @@ describe('MockingStrategyComponent', () => {
   }));
 
   // SUBJECT for flexibility 
-  it('should do something', fakeAsync(() => {
+  it('should array have proper elements, many values async, more flexibility', fakeAsync(() => {
     const sub: Subject<string> = new Subject();
     const obs: Observable<string> = sub.asObservable();
 
@@ -120,7 +120,7 @@ describe('MockingStrategyComponent', () => {
 // mokowanie za pomoca marble
 
   // interval marble
-  it('should do something INTERVAL marble', () => {
+  it('should array have proper elements, many values async Interval marble version', () => {
     testScheduler.run(runHelpers => {
       const { cold, flush } = runHelpers;
 

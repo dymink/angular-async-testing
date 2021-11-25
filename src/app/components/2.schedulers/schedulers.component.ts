@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { asapScheduler, asyncScheduler, merge, of, queueScheduler, scheduled } from 'rxjs';
+import { animationFrameScheduler, asapScheduler, asyncScheduler, merge, of, queueScheduler, scheduled } from 'rxjs';
 import { mergeAll, observeOn } from 'rxjs/operators';
 
 @Component({
@@ -28,14 +28,18 @@ export class SchedulersComponent implements OnInit {
 
   merge(
     of(1),
+    of(1, queueScheduler),
     of(2, asyncScheduler),
-    of(3, asapScheduler)
+    of(3, asapScheduler),
+    of(4, animationFrameScheduler)
   ).subscribe(v => this.push(v))
     
   // 1 3 2
 
     // animationFrameScheduler
   }
+
+  // A Scheduler lets you define in what execution context will an Observable deliver notifications to its Observer.
 
   // Scheduler Types
 

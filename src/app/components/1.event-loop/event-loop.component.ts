@@ -30,7 +30,14 @@ export class EventLoopComponent implements OnInit {
       } 
     ) // Mikrotask
 
-    // 1 3 2
+    requestAnimationFrame(()=> {
+      this.push(4);
+    });
+
+    // 1 3 4 2 
+
+    // Safari
+    // 1 3 2 4
 
 
     // https://css-tricks.com/using-requestanimationframe/

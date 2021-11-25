@@ -25,7 +25,7 @@ describe('EventLoopComponent', () => {
 
   it('should JS Eventloop work as expected - JS', waitForAsync(() => {
     fixture.whenStable().then(()=>{
-      expect(component.numbers).toEqual([1,3,2])
+      expect(component.numbers).toEqual([1,3,4,2])
     })
   }));
 });
