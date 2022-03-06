@@ -10,12 +10,10 @@ describe('MarblesComponent', () => {
   let fixture: ComponentFixture<MarblesComponent>;
 
 
-  const testScheduler = new TestScheduler((actual, expected) => {
+  const testShedulerCallback = (actual: string, expected: string) => {
     console.log(actual, expected)  // <--  [PRO TIP] tutaj mozna sprawdzić kiedy przychodz  wartosci
     expect(actual).toEqual(expected)
-  })
-
-  const time = testScheduler.createTime('--|')
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -41,6 +39,7 @@ describe('MarblesComponent', () => {
   // TestShedular = nowa metoda run dostepna od wersji 6
 
   it('should emit proper value - marbles mocked with hot helper method', () => {
+    const testScheduler = new TestScheduler(testShedulerCallback) 
     testScheduler.run((helpers: RunHelpers) => {
       const { cold, hot, expectObservable, expectSubscriptions, flush} = helpers;
       const source = hot('---a--b--c|', { a: 'red', b: 'green', c: 'black'});
@@ -53,6 +52,7 @@ describe('MarblesComponent', () => {
   })
 
   it('should emit proper value - marbles mocked with cold helper method', () => {
+    const testScheduler = new TestScheduler(testShedulerCallback)
     testScheduler.run((helpers: RunHelpers) => {
       const { cold, hot, expectObservable, expectSubscriptions, flush} = helpers;
       const source = cold('---a--b--c|', { a: 'red', b: 'green', c: 'black'});
@@ -66,6 +66,7 @@ describe('MarblesComponent', () => {
 
 
   it('should emit proper value - marbles new time progression syntax', () => {
+    const testScheduler = new TestScheduler(testShedulerCallback)
     testScheduler.run((helpers: RunHelpers) => {
       const { cold, hot, expectObservable, expectSubscriptions, flush} = helpers;
 
@@ -75,6 +76,7 @@ describe('MarblesComponent', () => {
   })
 
   it('should emit proper value - marbles flush usage example', () => {
+    const testScheduler = new TestScheduler(testShedulerCallback)
     testScheduler.run((helpers: RunHelpers) => {
       const { cold, hot, expectObservable, expectSubscriptions, flush} = helpers;
 
