@@ -1,4 +1,4 @@
-import { ComponentFixture, fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flushMicrotasks, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import { RunHelpers } from 'rxjs/internal/testing/TestScheduler';
 import { TestScheduler } from 'rxjs/testing';
 
@@ -31,8 +31,7 @@ describe('AngularTestUtilsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-
-    it('should time frame be 20 like in configuration', () => {
+  it('should time frame be 20 like in configuration', () => {
     expect(time).toEqual(20);
   })
 
@@ -47,8 +46,16 @@ describe('AngularTestUtilsComponent', () => {
     expect(consoleSpy).toHaveBeenCalledWith('black')
 
     // trzeba do konca doprowadzic observable bo inaczej bład 
-
   }))
+
+  it('should test some asynchronous code', fakeAsync(() => {
+    let flag = false;
+    Promise.resolve(true).then((result) => {
+      flag = true;
+    });
+    flushMicrotasks();
+    expect(flag).toBe(true); // PASSES
+  }));
 
   it('should log proper colors - waitForAsync', waitForAsync(() => {
     const consoleSpy = spyOn(console, 'log')
@@ -59,19 +66,26 @@ describe('AngularTestUtilsComponent', () => {
       expect(consoleSpy).toHaveBeenCalledWith('green')
       expect(consoleSpy).toHaveBeenCalledWith('black')
     });
-    
-
     // trzeba do konca doprowadzic observable bo inaczej bład 
 
   }))
 
-  it('should log proper colors - jasmine done', waitForAsync(() => {
-    //todo
+  it('should log proper colors - jasmine done', (done) => {
+    const result: string[] = [];
 
-  }))
+    component.selected$.subscribe({
+        next: (value) => {
+          result.push(value);
+        },
+        complete: () => {
+          expect(result).toEqual(['red', 'green', 'black']);
+          done();
+        }
+    })
 
+  })
 
-  it('should do something', () => {
+  it('marble test', () => {
     testScheduler.run((helpers: RunHelpers) => {
       const { expectObservable } = helpers;
 

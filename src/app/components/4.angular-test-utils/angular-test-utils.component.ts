@@ -15,7 +15,6 @@ export class AngularTestUtilsComponent implements OnInit {
   selected$ = of(...this.colors)
   .pipe(
     concatMap(x => {
-      // console.log(x)
       return of(x)
     .pipe(
       delay(20)
